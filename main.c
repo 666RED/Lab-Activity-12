@@ -1,40 +1,47 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
-#define NUM 10
+#define NUM 12
 
-void searchChar(char characterArr[], char);
+int searchNumber(int, int arr[], int, int);
+void display(int, int);
 
 int main(){
-    char character;
-    char characterArr[10] = {'A', 'B', 'B', 'D', 'C', 'D', 'C', 'A', 'C', 'B'};
-    printf("Enter the character to be searched in the array: ");
-    scanf("%c", &character);
-    character = toupper(character);
-    searchChar(characterArr, character);
+    int number, index;
+    int arr[NUM] = {1,2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+    printf("Enter the number: ");
+    scanf("%d", &number);
+    index = searchNumber(number, arr, 0, NUM - 1);
+    display(index, number);
 }
 
-void searchChar(char characteraArr[], char character){
-    int numOfChar = 0;
-
-    for(int i = 0; i < NUM; i++){
-        if(characteraArr[i] == character){
-            numOfChar++;
+int searchNumber(int number, int arr[], int begin, int end){
+    if(begin == end){
+        if(arr[begin] == number){
+            return begin;
+        }else{
+            return -1;
         }
     }
 
-    if(numOfChar == 0){
-        printf("\n'%c' not found in the list.\n", character);
-    }else{
-        printf("\nNumber of '%c' = %d\n", character, numOfChar);
+    int mid = (begin + end) / 2;
+
+    if(arr[mid] == number){
+        return mid;
+    }else if(arr[mid] > number){
+        mid = searchNumber(number, arr, begin, mid);
+    }else if(arr[mid] < number){
+        mid = searchNumber(number, arr, mid + 1, end);
     }
+    return mid;
 }
 
-
-
-
-
-
+void display(int index, int number){
+    if(index == -1){
+        printf("\nNumber not found.\n");
+    }else{
+        printf("\n%d found at index %d\n", number, index);
+    }
+}
 
 
 
